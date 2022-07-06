@@ -1,4 +1,30 @@
-# Getting Started with Create React App
+# React Amplified
+
+A base React app with AWS Amplify. See the [Getting Started](https://docs.amplify.aws/start/getting-started/data-model/q/integration/react/#deploying-the-api) documentation and guide for more information.
+
+```
+amplify init
+
+# To deploy this backend, run the push command:
+
+amplify push
+
+# This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in.
+
+amplify status
+
+# view the GraphQL API in the AppSync console
+
+amplify console api
+
+# view your entire app in the Amplify console
+
+amplify console
+
+# To test this out locally, you can run the mock command
+
+amplify mock api
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
