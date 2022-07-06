@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "reactamplified",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/dev/Code/react-amplified/amplify/backend/api/reactamplified/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}
