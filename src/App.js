@@ -13,6 +13,7 @@ const App = () => {
   const [formState, setFormState] = useState(initialState)
   const [todos, setTodos] = useState([])
 
+  // When the component loads, the useEffect hook is called and it invokes the fetchTodos function
   useEffect(() => {
     fetchTodos()
   }, [])
@@ -21,6 +22,8 @@ const App = () => {
     setFormState({ ...formState, [key]: value })
   }
 
+  // Uses the Amplify API category to call the AppSync GraphQL API with the listTodos query
+  // Once the data is returned, the items array is passed in to the setTodos function to update the local state
   async function fetchTodos() {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos))
@@ -29,6 +32,8 @@ const App = () => {
     } catch (err) { console.log('error fetching todos') }
   }
 
+  // Uses the Amplify API category to call the AppSync GraphQL API with the createTodo mutation
+  // A difference between the listTodos query and the createTodo mutation is that createTodo accepts an argument containing the variables needed for the mutation
   async function addTodo() {
     try {
       if (!formState.name || !formState.description) return
