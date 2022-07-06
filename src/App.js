@@ -72,6 +72,8 @@ function App({ signOut, user }) {
           <div key={todo.id ? todo.id : index} style={styles.todo}>
             <p style={styles.todoName}>{todo.name}</p>
             <p style={styles.todoDescription}>{todo.description}</p>
+            {/* <button style={styles.button} onClick={removeTodo}>delete</button> */}
+
           </div>
         ))
       }
