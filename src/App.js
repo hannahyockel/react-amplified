@@ -3,7 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { Amplify, API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
-import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
+import {
+  defaultDarkModeOverride,
+  ThemeProvider,
+  Card,
+  Text,
+  useTheme,
+  withAuthenticator,
+  ToggleButton,
+  ToggleButtonGroup,
+  Button,
+  Heading,
+  TextField
+} from '@aws-amplify/ui-react';
+import './App.css'
 import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from "./aws-exports";
@@ -47,48 +60,71 @@ function App({ signOut, user }) {
       console.log('error creating todo:', err)
     }
   }
+  const [colorMode, setColorMode] = React.useState('system');
+  const theme = {
+    name: 'my-theme',
+    overrides: [defaultDarkModeOverride],
+  };
 
   return (
     <>
-    <div style={styles.container}>
+    <ThemeProvider theme={theme} colorMode={colorMode}>
+      
+    <Card className="app">
+    
+      
     <Heading level={5}>Hello user {user.username}</Heading>
       <Button onClick={signOut}>Sign out</Button>
-      <h2>Amplify Todos</h2>
-      <input
+      <Heading level={2}>Todos</Heading>
+      <TextField
         onChange={event => setInput('name', event.target.value)}
-        style={styles.input}
         value={formState.name}
         placeholder="Name"
       />
-      <input
+      <TextField
         onChange={event => setInput('description', event.target.value)}
-        style={styles.input}
         value={formState.description}
         placeholder="Description"
       />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
+      <Button onClick={addTodo}>Create Todo</Button>
+      
       {
         todos.map((todo, index) => (
-          <div key={todo.id ? todo.id : index} style={styles.todo}>
-            <p style={styles.todoName}>{todo.name}</p>
-            <p style={styles.todoDescription}>{todo.description}</p>
+          <Card variation="elevated" key={todo.id ? todo.id : index}>
+            <p>{todo.name}</p>
+            <p>{todo.description}</p>
             {/* <button style={styles.button} onClick={removeTodo}>delete</button> */}
 
-          </div>
+          </Card>
         ))
       }
-    </div>
+      <Card>
+        <ToggleButtonGroup
+          value={colorMode}
+          isExclusive
+          onChange={(value) => setColorMode(value)}
+        >
+          <ToggleButton value="light">Light</ToggleButton>
+          <ToggleButton value="dark">Dark</ToggleButton>
+          <ToggleButton value="system">System</ToggleButton>
+        </ToggleButtonGroup>
+        <Text>Current color mode: {colorMode}</Text>
+      </Card>
+    </Card>
+
+    </ThemeProvider>
       </>
   );
 }
 
-const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, fontFamily: 'Poppins' },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
+// style={styles.input}
+// const styles = {
+//   container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20, fontFamily: 'Poppins' },
+//   todo: {  marginBottom: 15 },
+//   input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
+//   todoName: { fontSize: 20, fontWeight: 'bold' },
+//   todoDescription: { marginBottom: 0 },
+//   button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
+// }
 
 export default withAuthenticator(App);
